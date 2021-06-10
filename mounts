@@ -1,0 +1,2 @@
+#!/bin/bash
+echo $( mount | awk '{ print $3,"  ",$5 }' )

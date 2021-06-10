@@ -1,0 +1,18 @@
+#!/bin/bash
+# To find and print the difference between two dates.
+# command to run script : ./date_difference 'xxxx-xx-xx' 'xxxx-xx-xx' 
+
+DATE1=$(date -d "$1" +%s)
+DATE2=$(date -d "$2" +%s)
+[ "$DATE1" = "$DATE2" ]&&echo "They both are same days"&&exit 0
+if [[ "$DATE1" > "$DATE2" ]]
+then
+    echo $(( ($DATE1 - $DATE2) / 86400 )) days difference
+else
+    echo $(( ($DATE2 - $DATE1) / 86400 )) days difference
+fi
+exit 0
+
+
+
+

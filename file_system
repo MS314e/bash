@@ -1,0 +1,4 @@
+#!/bin/bash
+#file system in my system
+echo $( df -Th | grep "^/dev" | awk -F' '  '{print $2}' | head -1 )
+

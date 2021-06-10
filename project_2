@@ -1,0 +1,88 @@
+#!/bin/bash
+# Create an array which holds list of courses. This should be used to compare if the course name is passed in CLI
+courses=(
+"Linux_course/Linux_course1"
+"Linux_course/Linux_course2"
+"SQLFundamentals1"
+)
+print_help() {
+	echo "./course_mount.sh -h
+		Usage:
+			./course_mount.sh -h to print help message
+			./course_mount.sh -m -c [course] for mounting a given course
+			./course_mount.sh -u -c [course] for unmounting a given course
+		If course name is ommited all courses will be (un)mounted"
+}
+
+#function to check mount exists
+check_mount() {
+    found="false"
+    for COURSE in {courses[@]}:
+    do
+          if [["$COURSE == "$1" ]]
+          then 
+                found="true"
+                break
+          fi
+    done
+    if [[ "$found" == "false" ]]
+    then
+         echo "Course not available"
+         return 2
+    fi        
+    echo "found!! system checking for mount availablity"
+    mount | grep "/home/trainee/courses/$1 > /dev/null
+    if [[ "$?" == 0 ]]
+    then
+       
+         return 1
+    fi
+    return 0
+}
+
+#function for mount a course
+mount_course() {
+    check=check_mount()
+    if [[ "$check" == 2 ]]
+    then
+           exit 2
+    else if [[ "$check" == 1 ]]
+    then
+           echo "OOPS $1 is already mounted"
+           exit 1
+    echo " system check done starting mount "
+    mkdir -p /home/trainee/courses/$1
+    bindfs -p a-w -u trainee -g ftpaccess $1 /home/trainee/courses/$1
+    echo " Successfully mounted $1"
+
+}
+
+# function to mount all courses
+mount_all() {
+    for COURSE in ${COURSES[@]}
+           mount_course() $COURSE
+}
+
+# function for unmount course
+unmount_course() {
+    check=${check_mount()  
+    if [[ "$check" == 2 ]]
+    then
+           exit 2
+    else if [[ "$check" == 0 ]]
+    then
+           exit 3
+    echo "starting unmounting"
+    sudo umount /home/trainee/courses/$1
+    echo "Unmounting Successful
+    rm -r /home/trainee/courses/$1 > /dev/null
+    echo "Deleting Successful"
+    # Check if mount exists
+    # If mount exists unmount and delete directory in target folder
+}
+
+# function for unmount all courses
+unmount_all() {
+    #for COURSE in ${COURSES[@]}
+           unmount_course() $COURSE
+}

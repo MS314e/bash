@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#print all dates till next month
+
+NEXT_MONTH=$(date --date="+1 month" +%m) 
+
+COUNTER=0
+
+while  [ ! "$(date --date="+$COUNTER day" +%m)" -eq "$NEXT_MONTH" ]
+do
+        echo $(date --date="+$COUNTER day" +%d-%m-%y)       #date after adding counter days in today's date
+	COUNTER=$(($COUNTER + 1))
+done

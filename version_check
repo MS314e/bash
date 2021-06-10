@@ -1,0 +1,14 @@
+#!/bin/bash
+#check version of utility
+#input file name containing list of utility
+for util in $(cat $1)
+do
+    echo "$util" 
+    $( $util --version > '/dev/null')
+    if [[ "$?" == 0 ]]                                       ##checking if last command ran successfully
+    then
+         echo "$($util --version)"                              ##utility version print
+    else
+         echo "better luck next time"
+    fi
+done
